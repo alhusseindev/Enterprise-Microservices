@@ -39,7 +39,7 @@ public class SupplierController{
         return mySupplierRepository.save(mySupplier);
     }
 
-    @PutMapping("/update/{id}")
+    @PatchMapping("/update/{id}")
     public Supplier updateSupplier(@RequestBody Supplier mySupplier, @PathVariable Long id){
         return mySupplierRepository.findById(id).map((supplier) ->{
             supplier.setSupplierTitle(mySupplier.getSupplierTitle());
@@ -56,8 +56,7 @@ public class SupplierController{
             supplier.setTypeOfGoods(mySupplier.getTypeOfGoods());
             supplier.setPaymentTerms(mySupplier.getPaymentTerms());
             supplier.setNotes(mySupplier.getNotes());
-            supplier.setProducts(mySupplier.getProducts());
-            supplier.setComponents(mySupplier.getComponents());
+            supplier.setItemsSupplied(mySupplier.getItemsSupplied());
             supplier.setCreatedAt(mySupplier.getCreatedAt());
             return mySupplierRepository.save(supplier);
         }).orElseGet(() ->{
@@ -88,6 +87,7 @@ public class SupplierController{
         return myProductFlux;
     }
 
+
     @GetMapping("/components/get/all")
     public Flux<ProductComponent> getSupplierComponents() throws SupplierException{
         Flux<ProductComponent> myComponentFlux =
@@ -98,6 +98,8 @@ public class SupplierController{
                 .bodyToFlux(ProductComponent.class);
         return myComponentFlux;
     }
+
+
 
 
     /**

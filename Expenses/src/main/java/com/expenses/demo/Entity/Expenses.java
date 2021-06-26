@@ -6,6 +6,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -31,7 +32,6 @@ public class Expenses{
     private String expenseDescription;
     @DateTimeFormat(pattern = "mm/dd/yyyy hh:mm:ss")
     @CreatedDate
-    @LastModifiedDate
     private LocalDateTime createdAt = LocalDateTime.now();
 
     //default constructor

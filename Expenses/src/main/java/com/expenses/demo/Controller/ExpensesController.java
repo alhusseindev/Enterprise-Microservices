@@ -33,7 +33,7 @@ public class ExpensesController{
         return myExpenseRepository.save(myExpense);
     }
 
-    @PutMapping("/update/{id}")
+    @PatchMapping("/update/{id}")
     public Expenses updateExpenseById(@RequestBody Expenses myExpense, @PathVariable Long id){
         return myExpenseRepository.findById(id).map((expense) ->{
             expense.setPaymentDate(myExpense.getPaymentDate());

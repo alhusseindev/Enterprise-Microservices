@@ -43,7 +43,7 @@ public class AccountingController{
         return myAccountingRepository.save(accounting);
     }
 
-    @PutMapping("/update")
+    @PatchMapping("/update/{id}")
     public Accounting updateAccounting(@RequestBody Accounting myAccounting, @PathVariable Long id){
         return myAccountingRepository.findById(id).map((accounting) ->{
             accounting.setCustomerList(myAccounting.getCustomerList());

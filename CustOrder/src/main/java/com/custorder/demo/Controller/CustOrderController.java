@@ -8,6 +8,7 @@ import com.custorder.demo.Exceptions.CustOrderException;
 import com.custorder.demo.Repository.CustOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 
@@ -19,6 +20,8 @@ public class CustOrderController {
     private CustOrderRepository myCustOrderRepository;
 
     CustOrder myCustOrder = new CustOrder();
+
+    WebClient myWebClient = WebClient.create("http://localhost:8080/api");
 
     @GetMapping("/list")
     public List<CustOrder> listOrders(){
@@ -35,7 +38,7 @@ public class CustOrderController {
         return myCustOrderRepository.save(myOrder);
     }
 
-    @PutMapping("/update/{id}")
+    @PatchMapping("/update/{id}")
     public CustOrder updateOrder(@RequestBody CustOrder myOrder, @PathVariable Long id){
         return myCustOrderRepository.findById(id).map((order) ->{
             order.setOrderDate(myOrder.getOrderDate());
@@ -62,33 +65,49 @@ public class CustOrderController {
 
 
     /** For Finished Products  */
-    @PostMapping("/items/add")
-    public void addItemsToOrder(@RequestBody Product myProduct){
-        myCustOrder.addOrderItem(myProduct);
+    @PostMapping("/finished-product/items/add/{productID}")
+    public void addProductItemsToOrder(@PathVariable Long productID){
+        Product productFetched = myWebClient
+                .get()
+                .uri("/products/product/get/{" + productID + "}")
+                .retrieve()
+                .bodyToMono(Product.class).block();
+        myCustOrder.addOrderItem(productFetched);
     }
 
     // test this
-    @DeleteMapping("/items/remove/{id}")
-    public void removeItemsFromOrder(@PathVariable Long id, @RequestBody Product myProduct) throws CustOrderException{
+    @DeleteMapping("/finished-product/items/remove/{productID}")
+    public void removeProductItemsFromOrder(@PathVariable Long productID) throws CustOrderException{
         //here id is for selecting the order by id
-        CustOrder myCustOrder = myCustOrderRepository.findById(id).orElseThrow(() -> new CustOrderException("Error Removing Item From Order!"));
-        myCustOrder.removeOrderItem(myProduct);
-
+        Product productFetched = myWebClient
+                .get()
+                .uri("/products/product/get/{" + productID + "}")
+                .retrieve()
+                .bodyToMono(Product.class).block();
+        myCustOrder.removeOrderItem(productFetched);
     }
 
     /** For Components (Ingredients) */
 
-    @PostMapping("/items/add")
-    public void addItemsToOrderComponents(@RequestBody ProductComponent myProductComponent){
-        myCustOrder.addOrderItemComponent(myProductComponent);
+    @PostMapping("/items/add/{productComponentID}")
+    public void addProductComponentItemToOrder(@PathVariable Long productComponentID){
+        ProductComponent productComponentFetched = myWebClient
+                .get()
+                .uri("/components/component/get/{" + productComponentID + "}")
+                .retrieve()
+                .bodyToMono(ProductComponent.class).block();
+        myCustOrder.addOrderItemComponent(productComponentFetched);
     }
 
-    // test this
-    @DeleteMapping("/items/remove/{id}")
-    public void removeItemsFromOrderComponents(@PathVariable Long id, @RequestBody Product myProduct) throws CustOrderException{
+    @DeleteMapping("/items/remove/{productComponentID}")
+    public void removeProductComponentItemFromOrder(@PathVariable Long productComponentID) throws CustOrderException{
         //here id is for selecting the order by id
-        CustOrder myCustOrder = myCustOrderRepository.findById(id).orElseThrow(() -> new CustOrderException("Error Removing Items from Order Components!"));
-        myCustOrder.removeOrderItem(myProduct);
+        ProductComponent productComponentFetched = myWebClient
+                .get()
+                .uri("/components/component/get/{" + productComponentID + "}")
+                .retrieve()
+                .bodyToMono(ProductComponent.class).block();
+        myCustOrder.removeOrderItemComponent(productComponentFetched);
     }
 
 

@@ -37,7 +37,7 @@ public class Customer {
     private String notes;
     private Double customerWorth = 0.0;
     @DateTimeFormat(pattern = "mm/dd/yyyy hh:mm:ss")
-    @CreatedDate @LastModifiedDate
+    @CreatedDate
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @OneToMany

@@ -44,46 +44,16 @@ public class ProductController {
     }
 
 
-
-    /**
-    @PostMapping("/components/add/product:{productId}/component:{componentId}")
-    public void addComponentToProductComponents(@PathVariable Long productId, @PathVariable Long componentId) throws ProductException{
-        //Product myaProduct = new Product();
-
-        //selecting product by ID
-        //mapping
-        myProductRepository.findById(productId).map((myProduct) ->{
-            myProduct.addProductComponent(componentId);
-            return myProductRepository.save(myProduct);
-        });
-
-
-        //myaProduct.addProductComponent(componentId);
-    }
-
-     */
-
-    /**
-    @DeleteMapping("/components/remove/product:{productId}/component:{componentId}")
-    public void deleteComponentFromProductComponents(@PathVariable Long productId, @PathVariable Long componentId){
-        myProductRepository.findById(productId).map((myProduct) ->{
-           myProduct.removeProductComponent(componentId);
-           return myProductRepository.save(myProduct);
-        });
-    }
-
-    */
-
-
     /* */
 
-    @PutMapping("/update/{id}")
+    @PatchMapping("/update/{id}")
     public Product updateProduct(@RequestBody Product myProduct, @PathVariable Long id){
         return myProductRepository.findById(id).map((product) ->{
             product.setName(myProduct.getName());
             product.setProductComponents(myProduct.getProductComponents());
             product.setProductCost(myProduct.getProductCost());
             product.setProductPrice(myProduct.getProductPrice());
+            product.setProductUnits(myProduct.getProductUnits());
             product.setQuantity(myProduct.getQuantity());
             product.setCreatedAt(myProduct.getCreatedAt());
             product.setStatus(myProduct.getStatus());
@@ -96,32 +66,33 @@ public class ProductController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteProduct(@PathVariable Long id) throws ProductException{
+    public void deleteProduct(@PathVariable Long id){
         myProductRepository.deleteById(id);
-        throw new ProductException("Product Deletion Error!");
     }
 
-    @PostMapping("/component/list/add/{id}")
-    public void addProductComponent(@PathVariable Long id){
-        ProductComponent myProductComponentMono =
+    @PostMapping("/component/add/{productComponentId}")
+    public void addProductComponent(@PathVariable Long productComponentId) throws ProductException{
+            ProductComponent myProductComponentMono =
                     myWebClient
                             .get()
-                            .uri("/components/component/get/{"+ id +'}')
+                            .uri("/components/component/get/{" + productComponentId + "}")
                             .retrieve()
                             .bodyToMono(ProductComponent.class).block();
-        myProduct.addProductComponent(myProductComponentMono);
+            myProduct.addProductComponent(myProductComponentMono);
+
     }
 
-    @DeleteMapping("/component/remove/{id}")
-    public void removeProductComponent(@PathVariable Long id){
-        ProductComponent myProductComponentMono =
-                myWebClient
-                .delete()
-                .uri("/components/component/delete/{" + id + '}')
-                .retrieve()
-                .bodyToMono(ProductComponent.class).block();
+    @DeleteMapping("/component/remove/{productComponentId}")
+    public void removeProductComponent(@PathVariable Long productComponentId) throws ProductException{
+            ProductComponent myProductComponentMono =
+                    myWebClient
+                            .delete()
+                            .uri("/components/component/get/{" + productComponentId + "}")
+                            .retrieve()
+                            .bodyToMono(ProductComponent.class).block();
 
-        myProduct.removeProductComponent(myProductComponentMono);
+            myProduct.removeProductComponent(myProductComponentMono);
+
     }
 
 
@@ -132,21 +103,34 @@ public class ProductController {
 
 
     @GetMapping("/components/get/all")
-    public Flux<ProductComponent> getProductComponents() throws ProductException {
-        //Product myProduct = new Product();
-        Flux<ProductComponent> myProductComponentFlux =
+    public Flux<ProductComponent> getAllProductComponents() throws ProductException {
+            Flux<ProductComponent> myProductComponentFlux =
                     myWebClient
-                    .get()
-                    .uri("/components/component/list")
-                    .retrieve()
-                    .bodyToFlux(ProductComponent.class);
-        //myProduct.setProductComponents(myProductComponentFlux);
+                            .get()
+                            .uri("/components/component/list")
+                            .retrieve()
+                            .bodyToFlux(ProductComponent.class);
+            //myProduct.setProductComponents(myProductComponentFlux);
+            return myProductComponentFlux;
 
-        return myProductComponentFlux;
+    }
+
+
+    @GetMapping("/components/get/{productComponentId}")
+    public Mono<ProductComponent> getSingleProductComponent(@PathVariable Long productComponentId) throws ProductException{
+            Mono<ProductComponent> myProductComponentMono =
+                    myWebClient
+                            .get()
+                            .uri("/components/component/get/{" + productComponentId + "}")
+                            .retrieve()
+                            .bodyToMono(ProductComponent.class);
+
+            return myProductComponentMono;
     }
 
 
     //getting only the component with the following ID
+    /**
     @GetMapping("/components/getbyid/")
     public Mono<ProductComponent> getSingleProductComponent() throws ProductException{
         List<ProductComponent> compList = myProduct.getProductComponents();
@@ -162,6 +146,12 @@ public class ProductController {
 
         return myProductComponentMono;
     }
+
+    */
+
+
+
+
 
 }
 

@@ -5,7 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+
 @Table
 @Entity
 public class Bookings{
@@ -20,13 +22,14 @@ public class Bookings{
     private String bookingStatus;
     private String bookingComments;
     private String employeeAssigned;
+    private LocalDateTime createdAt;
 
     public Bookings(){
 
     }
 
     //Actual Constructor
-    public Bookings(Long id, String bookingName, LocalDate bookingDate , LocalTime bookingStartTime, LocalTime bookingEndTime, String bookingDetails, String bookingStatus, String bookingComments, String employeeAssigned){
+    public Bookings(Long id, String bookingName, LocalDate bookingDate , LocalTime bookingStartTime, LocalTime bookingEndTime, String bookingDetails, String bookingStatus, String bookingComments, String employeeAssigned, LocalDateTime createdAt){
         this.id =  id;
         this.bookingName = bookingName;
         this.bookingDate =  bookingDate;
@@ -36,6 +39,7 @@ public class Bookings{
         this.bookingStatus = bookingStatus;
         this.bookingComments = bookingComments;
         this.employeeAssigned = employeeAssigned;
+        this.createdAt = createdAt;
     }
 
     //Getters
@@ -76,6 +80,9 @@ public class Bookings{
         return this.employeeAssigned;
     }
 
+    public LocalDateTime getCreatedAt(){
+        return this.createdAt;
+    }
 
     //Setters
     public void setId(Long id){
@@ -115,9 +122,12 @@ public class Bookings{
         this.employeeAssigned = employeeAssigned;
     }
 
+    public void setCreatedAt(LocalDateTime createdAt){
+        this.createdAt = createdAt;
+    }
     //str method
     public String toString(){
-        return "ID: " + this.id + '\n' + "Booking Name: " + this.bookingName + '\n' + "Booking Date: " + this.bookingDate + '\n' + "Booking Start Time: " + this.bookingStartTime + '\n' + "Booking End Time: " + this.bookingEndTime + '\n' + "Booking Details: " + this.bookingDetails + '\n' + "Booking Status: " + this.bookingStatus + '\n' + "Booking Comments: " + this.bookingComments + '\n' + "Employee Assigned: " + this.employeeAssigned + '\n';
+        return "ID: " + this.id + '\n' + "Booking Name: " + this.bookingName + '\n' + "Booking Date: " + this.bookingDate + '\n' + "Booking Start Time: " + this.bookingStartTime + '\n' + "Booking End Time: " + this.bookingEndTime + '\n' + "Booking Details: " + this.bookingDetails + '\n' + "Booking Status: " + this.bookingStatus + '\n' + "Booking Comments: " + this.bookingComments + '\n' + "Employee Assigned: " + this.employeeAssigned + '\n' + "Created On: " + this.createdAt;
     }
 
 }

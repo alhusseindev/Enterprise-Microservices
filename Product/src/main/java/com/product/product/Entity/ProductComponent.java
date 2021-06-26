@@ -19,8 +19,6 @@ public class ProductComponent {
 
     @Id
     @GeneratedValue
-    @CreatedBy
-    @LastModifiedBy
     private Long id;
     @NotNull(message = "Name Field Required!")
     private String name;
@@ -31,7 +29,6 @@ public class ProductComponent {
     @NotNull(message = "Price Field Required!")
     private Double componentPrice = 0.0;
     @DateTimeFormat(pattern = "mm/dd/yyyy hh:mm:ss")
-    @LastModifiedDate
     @CreatedDate
     private LocalDateTime createdAt = LocalDateTime.now();
     private String status;  //Raw - WIP - Finished Good

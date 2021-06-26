@@ -37,7 +37,7 @@ public class ComponentController{
     }
 
 
-    @PutMapping("/update/{id}")
+    @PatchMapping("/update/{id}")
     public Component updateComponent(@RequestBody Component myComponent, @PathVariable Long id){
         return myComponentRepository.findById(id).map((component) ->{
             component.setName(myComponent.getname());

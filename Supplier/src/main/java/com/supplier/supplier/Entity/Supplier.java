@@ -45,13 +45,9 @@ public class Supplier{
     private LocalDateTime createdAt = LocalDateTime.now();
     private String notes;
 
-    @OneToMany(cascade = {CascadeType.ALL})
+    @ElementCollection
     @JoinColumn
-    private List<Product> products;
-
-    @OneToMany(cascade = {CascadeType.ALL})
-    @JoinColumn
-    private List<ProductComponent> components;
+    private List<Object> itemsSupplied;
 
 
     // Default Constructor (Constructor Injection)
@@ -60,7 +56,7 @@ public class Supplier{
     }
 
     //Actual Constructor
-    public Supplier(Long id, String supplierTitle, String supplierFirstName, String supplierLastName, String companyName, Integer phoneNumber, Integer otherPhoneNumber, Integer accountNumber, String email, String address, String website, Double hourlyRate, String typeOfGoods, String paymentTerms, String notes, List<Product> products, List<ProductComponent> components, LocalDateTime createdAt){
+    public Supplier(Long id, String supplierTitle, String supplierFirstName, String supplierLastName, String companyName, Integer phoneNumber, Integer otherPhoneNumber, Integer accountNumber, String email, String address, String website, Double hourlyRate, String typeOfGoods, String paymentTerms, String notes, List<Object> itemsSupplied, LocalDateTime createdAt){
         this.id = id;
         this.supplierTitle = supplierTitle;
         this.supplierFirstName = supplierFirstName;
@@ -77,8 +73,7 @@ public class Supplier{
         this.paymentTerms = paymentTerms;
         this.notes = notes;
         this.createdAt = createdAt;
-        this.products = products;
-        this.components = components;
+        this.itemsSupplied = itemsSupplied;
     }
 
     //Getters
@@ -142,12 +137,8 @@ public class Supplier{
         return this.notes;
     }
 
-    public List<Product> getProducts(){
-        return this.products;
-    }
-
-    public List<ProductComponent> getComponents(){
-        return this.components;
+    public List<Object> getItemsSupplied(){
+        return this.itemsSupplied;
     }
 
     public LocalDateTime getCreatedAt(){
@@ -215,12 +206,8 @@ public class Supplier{
         this.notes = notes;
     }
 
-    public void setProducts(List<Product> products){
-        this.products = products;
-    }
-
-    public void setComponents(List<ProductComponent> components){
-        this.components = components;
+    public void setItemsSupplied(List<Object> itemsSupplied){
+        this.itemsSupplied = itemsSupplied;
     }
 
     public void setCreatedAt(LocalDateTime createdAt){
@@ -229,8 +216,8 @@ public class Supplier{
 
     //toString method
     public String toString(){
-        return String.format("Supplier Id: %d\nSupplier Title: %s\nSupplier First Name: %s\nSupplier Last Name: %s\nCompany Name: %s\nphoneNumber: %d\nOther Phone Number: %d\nAccount Number: %d\nEmail: %s\nAddress: %s\nWebsite: %s\nHourly Rate: %f\nType Of Goods: %s\nPayment Terms: %s\nNotes: %s\nProducts List: %s\nComponents List: %s",
-                this.id, this.supplierTitle, this.supplierFirstName, this.supplierLastName, this.companyName, this.phoneNumber, this.otherPhoneNumber, this.accountNumber, this.email, this.address, this.website, this.hourlyRate, this.typeOfGoods, this.paymentTerms, this.notes, this.products, this.components) + "Created At: " + this.createdAt + "\n";
+        return String.format("Supplier Id: %d\nSupplier Title: %s\nSupplier First Name: %s\nSupplier Last Name: %s\nCompany Name: %s\nphoneNumber: %d\nOther Phone Number: %d\nAccount Number: %d\nEmail: %s\nAddress: %s\nWebsite: %s\nHourly Rate: %f\nType Of Goods: %s\nPayment Terms: %s\nNotes: %s\n",
+                this.id, this.supplierTitle, this.supplierFirstName, this.supplierLastName, this.companyName, this.phoneNumber, this.otherPhoneNumber, this.accountNumber, this.email, this.address, this.website, this.hourlyRate, this.typeOfGoods, this.paymentTerms, this.notes) + "Items Supplied: " + this.itemsSupplied + '\n' + "Created At: " + this.createdAt + "\n";
     }
 
 }

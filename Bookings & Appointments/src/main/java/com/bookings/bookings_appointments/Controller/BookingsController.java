@@ -30,7 +30,7 @@ public class BookingsController {
         return myBookingsRepository.save(myBookings);
     }
 
-    @PutMapping("/update/{id}")
+    @PatchMapping("/update/{id}")
     public Bookings updateBooking(@RequestBody Bookings myBookings, @PathVariable Long id){
         return myBookingsRepository.findById(id).map((bookings) ->{
             bookings.setBookingName(myBookings.getBookingName());
@@ -41,6 +41,7 @@ public class BookingsController {
             bookings.setBookingStatus(myBookings.getBookingStatus());
             bookings.setBookingComments(myBookings.getBookingComments());
             bookings.setEmployeeAssigned(myBookings.getEmployeeAssigned());
+            bookings.setCreatedAt(myBookings.getCreatedAt());
             return myBookingsRepository.save(bookings);
         }).orElseGet(() ->{
             myBookings.setId(id);

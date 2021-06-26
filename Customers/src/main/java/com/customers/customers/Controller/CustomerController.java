@@ -37,7 +37,7 @@ public class CustomerController{
         return myCustomerRepository.save(myCustomer);
     }
 
-    @PutMapping("/update/{id}")
+    @PatchMapping("/update/{id}")
     public Customer updateCustomer(@RequestBody Customer myCustomer, @PathVariable Long id){
         return myCustomerRepository.findById(id).map((customer) ->{
             customer.setCustomerTitle(myCustomer.getCustomerTitle());
@@ -69,13 +69,14 @@ public class CustomerController{
 
 
 
+
     @PostMapping("/order/add/customer:{customerID}/order:{customerOrderID}")
     public void addOrderToCustomerOrders(@PathVariable Long customerID , @PathVariable Long customerOrderID) throws CustomerException{
         // get order by order id, by making a request to the CustOrder api
         CustOrder selectedCustOrder =
                  myWebClient
                 .get()
-                .uri("/orders/order/get/{customerOrderID}")
+                .uri("/orders/order/get/{" + customerOrderID + "}")
                 .retrieve()
                 .bodyToMono(CustOrder.class).block();
 
@@ -84,6 +85,25 @@ public class CustomerController{
         var CustomerSelected = myCustomerRepository.findById(customerID).orElseThrow(() -> new CustomerException("Error! Order Could Not be Added!"));
         CustomerSelected.addOrderToCustOrders(selectedCustOrder);
     }
+
+
+    /** Needs to be tested */
+    @DeleteMapping("/order/delete/customer:{customerID}/order:{customerOrderID}")
+    public void removeOrderFromCustomerOrders(@PathVariable Long customerID , @PathVariable Long customerOrderID) throws CustomerException{
+        // get order by order id, by making a request to the CustOrder api
+        CustOrder selectedCustOrder =
+                myWebClient
+                        .get()
+                        .uri("/orders/order/get/{" + customerOrderID + "}")
+                        .retrieve()
+                        .bodyToMono(CustOrder.class).block();
+
+        //find customer by id
+        //then add the retrieved item from api to the orders.
+        var CustomerSelected = myCustomerRepository.findById(customerID).orElseThrow(() -> new CustomerException("Error! Order Could Not be Deleted!"));
+        CustomerSelected.removeOrderFromCustOrders(selectedCustOrder);
+    }
+
 
 
 

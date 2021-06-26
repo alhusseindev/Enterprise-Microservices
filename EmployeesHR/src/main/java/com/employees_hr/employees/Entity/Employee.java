@@ -14,8 +14,11 @@ public class Employee{
     private Long id;
     private String employeeName;
     private String employeeRole;
+    private String department;
     private Double employeeHours;
     private Double employeeOvertime;
+    private String employeeEmail;
+    private Integer phoneNumber;
     private LocalDateTime clockIn = LocalDateTime.now();
     private LocalDateTime clockOut = LocalDateTime.now();
     private String disciplinaryActions;
@@ -24,21 +27,23 @@ public class Employee{
     private Double payRate;
     private Double paidTimeOff;
     private Double unpaidTimeOff;
-    private Double compensation;
     private String employeePackage;
     private String employeeStatus;
     private String comments;
     private String performanceAppraisals;
-
+    private String employeeResponsibilities;
+    private LocalDateTime joiningDate;
 
     public Employee(){
 
     }
 
-    public Employee(Long id, String employeeName, String employeeRole, Double employeeHours, Double employeeOvertime, LocalDateTime clockIn, LocalDateTime clockOut, String disciplinaryActions, Double trainingHours, String payType, Double payRate, Double paidTimeOff, Double unpaidTimeOff, Double compensation, String employeePackage, String employeeStatus, String comments, String performanceAppraisals){
+    public Employee(Long id, String employeeName, String employeeRole, String department , String employeeEmail, Double employeeHours, Double employeeOvertime, LocalDateTime clockIn, LocalDateTime clockOut, String disciplinaryActions, Double trainingHours, String payType, Double payRate, Double paidTimeOff, Double unpaidTimeOff, String employeePackage, String employeeStatus, String comments, String performanceAppraisals, Integer phoneNumber, LocalDateTime joiningDate, String employeeResponsibilities){
         this.id = id;
         this.employeeName = employeeName;
         this.employeeRole = employeeRole;
+        this.department = department;
+        this.employeeEmail = employeeEmail;
         this.employeeHours = employeeHours;
         this.employeeOvertime = employeeOvertime;
         this.clockIn = clockIn;
@@ -49,11 +54,13 @@ public class Employee{
         this.payRate = payRate;
         this.paidTimeOff = paidTimeOff;
         this.unpaidTimeOff = unpaidTimeOff;
-        this.compensation = compensation;
         this.employeePackage = employeePackage;
         this.employeeStatus = employeeStatus;
         this.comments = comments;
         this.performanceAppraisals = performanceAppraisals;
+        this.phoneNumber = phoneNumber;
+        this.joiningDate = joiningDate;
+        this.employeeResponsibilities = employeeResponsibilities;
     }
 
 
@@ -110,10 +117,6 @@ public class Employee{
         return this.unpaidTimeOff;
     }
 
-    public Double getCompensation(){
-        return this.compensation;
-    }
-
     public String getEmployeePackage(){
         return this.employeePackage;
     }
@@ -128,6 +131,26 @@ public class Employee{
 
     public String getPerformanceAppraisals(){
         return this.performanceAppraisals;
+    }
+
+    public Integer getPhoneNumber(){
+        return this.phoneNumber;
+    }
+
+    public String getEmployeeEmail(){
+        return this.employeeEmail;
+    }
+
+    public String getDepartment(){
+        return this.department;
+    }
+
+    public LocalDateTime getJoiningDate(){
+        return this.joiningDate;
+    }
+
+    public String getEmployeeResponsibilities(){
+        return this.employeeResponsibilities;
     }
 
     //Setters
@@ -183,10 +206,6 @@ public class Employee{
         this.unpaidTimeOff = unpaidTimeOff;
     }
 
-    public void setCompensation(Double compensation){
-        this.compensation = compensation;
-    }
-
     public void setEmployeePackage(String employeePackage){
         this.employeePackage = employeePackage;
     }
@@ -203,9 +222,28 @@ public class Employee{
         this.performanceAppraisals = performanceAppraisals;
     }
 
+    public void setDepartment(String department){
+        this.department = department;
+    }
+
+    public void setEmployeeEmail(String employeeEmail){
+        this.employeeEmail = employeeEmail;
+    }
+    public void setPhoneNumber(Integer phoneNumber){
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setJoiningDate(LocalDateTime joiningDate){
+        this.joiningDate = joiningDate;
+    }
+
+    public void setEmployeeResponsibilities(String employeeResponsibilities){
+        this.employeeResponsibilities = employeeResponsibilities;
+    }
+
     //toString method
     public String toString(){
-
+        return "ID: " + this.id + '\n' + "Employee Name: " + this.employeeName + '\n' + "Employee Role: " + this.employeeRole + '\n' + "Department: " + this.department + '\n' + "Email: " + this.employeeEmail + '\n' + "Phone Number: " + this.phoneNumber + '\n' + "Employee Hours: " + this.employeeHours + '\n' + "Employee Overtime: " + this.employeeOvertime + '\n' + "Clock-In: " + this.clockIn + '\n' + "Clock Out: " + this.clockOut + '\n' + "Disciplinary Actions: " + this.disciplinaryActions + '\n' + "Training Hours: " + this.trainingHours + '\n' + "Pay Type: " + this.payType + '\n' + "Pay Rate: " + this.payRate + '\n' + "Paid Time-Off: " + this.paidTimeOff + '\n' + "UnPaid Time-Off: " + this.unpaidTimeOff + '\n' + "Employee Package: " + this.employeePackage + '\n' + "Status: " + this.employeeStatus + '\n' + "Comments: " + this.comments + '\n' + "Performance Appraisals: " + this.performanceAppraisals + '\n' + "Joining Date: " + this.joiningDate;
     }
 
 }

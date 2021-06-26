@@ -20,8 +20,6 @@ import javax.validation.constraints.NotBlank;
 public class Product{
     @Id
     @GeneratedValue
-    @CreatedBy
-    @LastModifiedBy
     private Long id;
     @NotBlank(message = "Name Field Required!")
     private String name;
@@ -30,12 +28,12 @@ public class Product{
     @JoinColumn
     private List<ProductComponent> productComponents = new ArrayList<>(); //component
     private Double quantity = 0.0;
+    private String productUnits;
     private Double productCost = 0.0;
     @NotBlank(message = "Price Field Required!")
     private Double productPrice = 0.0;
     @DateTimeFormat(pattern = "mm/dd/yyyy hh:mm:ss")
     @CreatedDate
-    @LastModifiedDate
     private LocalDateTime createdAt = LocalDateTime.now();
     private String status;  //Raw - WIP - Finished Good
 
@@ -43,13 +41,14 @@ public class Product{
     public Product(){
 
     }
-    public Product(Long id, String name, List<ProductComponent> productComponents, Double quantity, Double productCost, Double productPrice, LocalDateTime createdAt, String status){
+    public Product(Long id, String name, List<ProductComponent> productComponents, String productUnits, Double quantity, Double productCost, Double productPrice, LocalDateTime createdAt, String status){
         this.id = id;
         this.name = name;
         this.productComponents = productComponents;
         this.quantity = quantity;
         this.productCost = productCost;
         this.productPrice = productPrice;
+        this.productUnits = productUnits;
         this.createdAt = createdAt;
         this.status = status;
     }
@@ -69,6 +68,10 @@ public class Product{
 
     public Double getQuantity(){
         return this.quantity;
+    }
+
+    public String getProductUnits(){
+        return this.productUnits;
     }
 
     public Double getProductCost(){
@@ -117,6 +120,10 @@ public class Product{
         this.productPrice = productPrice;
     }
 
+    public void setProductUnits(String productUnits){
+        this.productUnits = productUnits;
+    }
+
     public void setQuantity(Double quantity){
         this.quantity = quantity;
     }
@@ -136,7 +143,7 @@ public class Product{
 
     //toString method
     public String toString(){
-        return String.format("Product:\nId: %s\nName: %s\nComponent(s): %s\nProduct Price: %f\nStatus: %s\n", this.id, this.name, this.productComponents, this.productPrice, this.status);
+        return String.format("Product:\nId: %s\nName: %s\nComponent(s): %s\nProduct Price: %f\nStatus: %s\nProduct Units: %s", this.id, this.name, this.productComponents, this.productPrice, this.status, this.productUnits);
     }
 }
 
